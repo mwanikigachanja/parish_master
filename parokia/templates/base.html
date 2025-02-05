@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parokia - Catholic Parish Admin</title>
+    <!-- Link to CSS (Bootstrap/Tailwind etc.) -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Parokia - Catholic Parish Administration</h1>
+        <nav>
+            <a href="{% url 'parishioners:list' %}">Parishioners</a>
+            <!-- Add other navigation links as needed -->
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Parokia</p>
+    </footer>
+</body>
+</html>

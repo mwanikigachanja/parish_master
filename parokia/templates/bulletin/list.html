@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Bulletins & Announcements</h2>
+  <a href="{% url 'bulletin:create' %}">Post a Bulletin</a>
+  <ul>
+    {% for bulletin in bulletins %}
+      <li>
+        <a href="{% url 'bulletin:detail' bulletin.pk %}">
+          {{ bulletin.title }} - Posted on {{ bulletin.posted_at|date:"Y-m-d" }}
+        </a>
+      </li>
+    {% empty %}
+      <li>No bulletins have been posted yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

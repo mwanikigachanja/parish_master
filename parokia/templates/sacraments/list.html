@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Sacraments</h2>
+  <a href="{% url 'sacraments:create' %}">Add New Sacrament</a>
+  <ul>
+    {% for sacrament in sacraments %}
+      <li>
+        <a href="{% url 'sacraments:detail' sacrament.pk %}">
+          {{ sacrament.parishioner }} - {{ sacrament.get_sacrament_type_display }}
+        </a>
+        {% if sacrament.certificate %}
+          <a href="{% url 'sacraments:download' sacrament.pk %}">Download Certificate</a>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No sacrament records found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

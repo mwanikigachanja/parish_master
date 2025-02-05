@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ object.first_name }} {{ object.last_name }}</h2>
+  <p>Email: {{ object.email }}</p>
+  <p>Phone: {{ object.phone }}</p>
+  <p>Address: {{ object.address }}</p>
+  <p>Baptism Date: {{ object.baptism_date }}</p>
+  <p>Marriage Date: {{ object.marriage_date }}</p>
+  <a href="{% url 'parishioners:update' object.pk %}">Edit</a>
+  <a href="{% url 'parishioners:delete' object.pk %}">Delete</a>
+  <a href="{% url 'parishioners:list' %}">Back to list</a>
+{% endblock %}

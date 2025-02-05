@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Your Volunteer Engagements</h2>
+  <a href="{% url 'volunteers:signup' %}">Sign Up for an Event</a>
+  <ul>
+    {% for volunteer in volunteers %}
+      <li>
+        Event: {{ volunteer.event.title }} – Hours Served: {{ volunteer.hours_served }} – Contribution: {{ volunteer.contribution_type }}
+      </li>
+    {% empty %}
+      <li>You have not signed up for any events.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

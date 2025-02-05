@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Donations</h2>
+  <a href="{% url 'donations:create' %}">Make a Donation</a>
+  <ul>
+    {% for donation in donations %}
+      <li>
+        {{ donation.donor.username }} donated {{ donation.amount }} ({{ donation.get_donation_type_display }})
+      </li>
+    {% empty %}
+      <li>No donations recorded.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
