@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parokia - Parish Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <h2 class="sidebar-title">Parokia Admin</h2>
+        <nav>
+            <ul>
+                <li><a href="#" data-section="dashboard">Dashboard</a></li>
+                <li><a href="#" data-section="parishioners">Parishioners</a></li>
+                <li><a href="#" data-section="sacraments">Sacraments</a></li>
+                <li><a href="#" data-section="bulletins">Bulletins</a></li>
+                <li><a href="#" data-section="donations">Donations</a></li>
+                <li><a href="#" data-section="attendance">Attendance</a></li>
+                <li><a href="#" data-section="volunteers">Volunteers</a></li>
+            </ul>
+        </nav>
+        <button id="menu-toggle" class="menu-button">☰ Menu</button>
+    </aside>
+    
+    <main>
+        <section id="dashboard" class="section active">
+            <h1>Welcome to Parokia Admin</h1>
+            <p>Manage your parish activities seamlessly.</p>
+        </section>
+        
+        <section id="parishioners" class="section">
+            <h2>Parishioners</h2>
+            <form class="ajax-form" data-action="main.php?action=addParishioner">
+                <input type="text" name="first_name" placeholder="First Name" required>
+                <input type="text" name="last_name" placeholder="Last Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="phone" placeholder="Phone">
+                <textarea name="address" placeholder="Address"></textarea>
+                <button type="submit">Add Parishioner</button>
+            </form>
+            <div id="parishioners-list" class="data-list"></div>
+        </section>
+
+        <section id="sacraments" class="section">
+            <h2>Sacraments</h2>
+            <div id="sacraments-list" class="data-list"></div>
+        </section>
+
+        <section id="bulletins" class="section">
+            <h2>Bulletins</h2>
+            <div id="bulletins-list" class="data-list"></div>
+        </section>
+        
+        <section id="donations" class="section">
+            <h2>Donations</h2>
+            <div id="donations-list" class="data-list"></div>
+        </section>
+        
+        <section id="attendance" class="section">
+            <h2>Attendance</h2>
+            <div id="attendance-list" class="data-list"></div>
+        </section>
+
+        <section id="volunteers" class="section">
+            <h2>Volunteers</h2>
+            <div id="volunteers-list" class="data-list"></div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        Developed by Charles Mwaniki &copy; 2025
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
