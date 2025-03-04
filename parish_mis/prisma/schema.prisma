@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String
+  email             String    @unique
+  password          String
+  role              UserRole  @default(parishioner)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  sacraments        Sacrament[]
+  donations         Donation[]
+  sccMemberships    SCCMembership[]
+  groupMemberships  GroupMembership[]
+  catechismClasses  CatechismClass[]
+  studentClasses    CatechismClassStudent[]
+  massApplications  MassApplication[]
+  approvedApplications MassApplication[] @relation("ApproverMassApplications")
+}
+
+enum UserRole {
+  admin
+  priest
+  catechist
+  leadership
+  parishioner
+}
+
+model Sacrament {
+  id          String   @id @default(cuid())
+  type        SacramentType
+  date        DateTime
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  minister    String
+  location    String
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum SacramentType {
+  baptism
+  communion
+  confirmation
+  marriage
+  anointing
+}
+
+model Donation {
+  id          String   @id @default(cuid())
+  amount      Float
+  date        DateTime
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  purpose     String
+  method      String
+  isAnonymous Boolean  @default(false)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  time        String
+  location    String
+  type        EventType
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum EventType {
+  mass
+  event
+}
+
+model Bulletin {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  date        DateTime
+  isPublic    Boolean  @default(true)
+  pdfUrl      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SCC {
+  id              String   @id @default(cuid())
+  name            String
+  description     String
+  leader          String
+  meetingDay      String
+  meetingTime     String
+  meetingLocation String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  members         SCCMembership[]
+}
+
+model SCCMembership {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  sccId     String
+  scc       SCC      @relation(fields: [sccId], references: [id])
+  role      String   @default("member")
+  joinedAt  DateTime @default(now())
+}
+
+model ChurchGroup {
+  id              String   @id @default(cuid())
+  name            String
+  type            GroupType
+  description     String
+  leader          String
+  meetingSchedule String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  members         GroupMembership[]
+}
+
+enum GroupType {
+  CMA
+  CWA
+  YACA
+  Youth
+  Choir
+  PMC
+  Other
+}
+
+model GroupMembership {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  groupId   String
+  group     ChurchGroup @relation(fields: [groupId], references: [id])
+  role      String   @default("member")
+  joinedAt  DateTime @default(now())
+}
+
+model CatechismClass {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  catechistId String
+  catechist   User     @relation(fields: [catechistId], references: [id])
+  dayOfWeek   String
+  time        String
+  location    String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  students    CatechismClassStudent[]
+}
+
+model CatechismClassStudent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  classId   String
+  class     CatechismClass @relation(fields: [classId], references: [id])
+  status    String   @default("active")
+  joinedAt  DateTime @default(now())
+}
+
+model MassApplication {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  requestedDate DateTime
+  applicantId   String
+  applicant     User     @relation(fields: [applicantId], references: [id])
+  approverId    String?
+  approver      User?    @relation("ApproverMassApplications", fields: [approverId], references: [id])
+  status        ApplicationStatus @default(pending)
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum ApplicationStatus {
+  pending
+  approved
+  denied
+  cancelled
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime?
+  budget      Float
+  status      ProjectStatus
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ProjectStatus {
+  planning
+  in_progress
+  completed
+  on_hold
+}
+
